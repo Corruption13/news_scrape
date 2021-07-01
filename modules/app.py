@@ -1,9 +1,8 @@
 # Main App Module resides here.
 # Made by S Sandeep Pillai ©
 
-from .listen import listener
+from .listen import listener_controller
 from .driver import init_web_driver
-
 
 def app():
 
@@ -15,7 +14,7 @@ def app():
 
     #news_target = input("Enter news website to target: ")
 
-    articles = listener(driver, 1, "boo")
+    articles = listener_controller(driver, "The Hindu", "boo")
     print(articles)
     #news = listen(news_source)
     #keywords = filter(news, user_filter)
