@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 
 from .content_fetch import content_fetcher
 
-
-
+#Define Listener Functions below.
+from .custom_listeners.the_hindu import the_hindu_listener
 # News Source Listener Functions should follow the following structure for I/O:
 # Function Argument: Selenium webdriver instance
 # Return a LIST[] of article structures. If Empty list, return a None instead. (IMPORTANT!)
@@ -12,9 +12,6 @@ from .content_fetch import content_fetcher
 # {'title': '', 'link': ' '}
 # Follow this format to implement your own listener for other websites.
 # Import and add that listener below.
-
-#Define Listener Functions below.
-from .custom_listeners.the_hindu import the_hindu_listener
 #
 SUPPORTED_NEWS_SOURCES = {  # Map the listener function to the News Source Name.
     "The Hindu": the_hindu_listener

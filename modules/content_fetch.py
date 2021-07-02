@@ -6,7 +6,7 @@ def content_fetcher(article_list, driver=None):
     print("Fetching content.")
     for page in article_list:
 
-        data = newspaper3kParser(page['link'], True)  # Use whatever parser you want, just return str, [list]
+        data = newspaper3kParser(page['link'])  # Use whatever parser you want, just return str, [list]
         page['content'] = data['content']
         page['keywords'] = data['keywords']
 

@@ -11,8 +11,10 @@ def app():  # Skeleton Model for project defined as comments.
     print("\nStarting Systems..\n")
     driver = init_web_driver()  # Global Web Driver for Selenium.   
     
+
     new_articles = listener_controller(driver, "The Hindu", "Corona")
-    cleaned_articles = filter(new_articles, [])
+    cleaned_articles = filter(new_articles, [], driver)
+    print(cleaned_articles)
     #links = find_relevant_news(cleaned_articles['keywords])
     # Output -> Links.
 

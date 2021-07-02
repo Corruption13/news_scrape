@@ -18,5 +18,5 @@ def init_web_driver():
         driver = webdriver.Chrome(chrome_options=chrome_options)
 
     print('\n\n\nIgnore any warnings above.\n')
-
+    driver.minimize_window()
     return driver

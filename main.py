@@ -1,4 +1,4 @@
-# News Finder System.
+# Common News Finder Service.
 # Made by S Sandeep Pillai ©
 # www.github.com/Corruption13\n
 
