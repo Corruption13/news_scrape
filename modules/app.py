@@ -1,23 +1,30 @@
 # Main App Module resides here.
-# Made by S Sandeep Pillai ©
+# S Sandeep Pillai ©
 
 from .listen import listener_controller
 from .driver import init_web_driver
 
-def app():
+from .filter import filter
 
-    driver = init_web_driver()
+def app():  # Skeleton Model for project defined as comments.
+
+    print("\nStarting Systems..\n")
+    driver = init_web_driver()  # Global Web Driver for Selenium.   
     
-    #news_source = int(input(
-    #    "Enter news source:\n[1] The Hindu\n[2] ANI\n"))
-    # user_filter = [str]
+    new_articles = listener_controller(driver, "The Hindu", "Corona")
+    cleaned_articles = filter(new_articles, [])
+    #links = find_relevant_news(cleaned_articles['keywords])
+    # Output -> Links.
 
-    #news_target = input("Enter news website to target: ")
-
-    articles = listener_controller(driver, "The Hindu", "boo")
-    print(articles)
-    #news = listen(news_source)
-    #keywords = filter(news, user_filter)
     driver.quit()
+    print("\n\nShutting Down\n")
 
 
+
+
+# Input variables
+
+#news_source = int(input(
+#    "Enter news source:\n[1] The Hindu\n[2] ANI\n"))
+# custom_user_filter = [str,]
+#news_target = input("Enter news website to target: ")

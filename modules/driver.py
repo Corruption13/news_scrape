@@ -1,4 +1,5 @@
     
+# Web driver stuff here.
 from selenium import webdriver
 DISABLE_IMAGE_LOADING = True
 
@@ -16,6 +17,6 @@ def init_web_driver():
         chrome_options.add_experimental_option("prefs", prefs)
         driver = webdriver.Chrome(chrome_options=chrome_options)
 
-    print('\n\n\n\n\nIgnore any warnings above.\n')
+    print('\n\n\nIgnore any warnings above.\n')
 
     return driver

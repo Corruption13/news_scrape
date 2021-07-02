@@ -1,15 +1,17 @@
-# News Finder
+# News Finder System.
 # Made by S Sandeep Pillai ©
+# www.github.com/Corruption13\n
 
-from modules.app import app
 import chromedriver_autoinstaller
+import nltk
+from modules.app import app
 
-
-if __name__ == "__main__":
-    
+def dependency_check():
     chromedriver_autoinstaller.install()
-    print("\nStarting Systems..\n")
-    #
+    nltk.download('punkt')
+
+
+if __name__ == "__main__":    
+    dependency_check()
     app()
-    #
-    print("\nwww.github.com/Corruption13\n")
+ 

@@ -1,16 +1,28 @@
 import time
 from bs4 import BeautifulSoup
 
+from .content_fetch import content_fetcher
 
-# News Sources defined in dictionary at bottom of this file.
-# News Source Functions should follow the following structure for IO:
-# Take in a Link
-# Output a list of article structures. If Empty list, return a None (IMPORTANT!)
+
+
+# News Source Listener Functions should follow the following structure for I/O:
+# Function Argument: Selenium webdriver instance
+# Return a LIST[] of article structures. If Empty list, return a None instead. (IMPORTANT!)
 # Article structure must contain keys: 
-# url, title ..
+# {'title': '', 'link': ' '}
+# Follow this format to implement your own listener for other websites.
+# Import and add that listener below.
 
+#Define Listener Functions below.
+from .custom_listeners.the_hindu import the_hindu_listener
+#
+SUPPORTED_NEWS_SOURCES = {  # Map the listener function to the News Source Name.
+    "The Hindu": the_hindu_listener
+}
 
-def listener_controller(driver, news_source, link, IGNORE_INITIAL_ARTICLES = True):    # Listens for new article from source and returns list of new articles found.
+### End 
+
+def listener_controller(driver, news_source, topic=None, IGNORE_INITIAL_ARTICLES = True):    # Listens for new article from source and returns list of new articles found.
     latest_article_list = []
     previous_articles = []
     new_article_found = False
@@ -23,7 +35,7 @@ def listener_controller(driver, news_source, link, IGNORE_INITIAL_ARTICLES = Tru
                 previous_articles = latest_article_list
                 print("\nInitialised Articles.")
             else:
-                if previous_articles[:3] != latest_article_list[:3]:
+                if previous_articles[:3] != latest_article_list[:3]:    # only checking first 3 articles to reduce computation.
                     print("New Articles Published!!")
                     new_article_found = True
                 else:
@@ -33,45 +45,14 @@ def listener_controller(driver, news_source, link, IGNORE_INITIAL_ARTICLES = Tru
         else:
             print("Invalid News Source.")
         
-    #debug    
-    print(latest_article_list)
-    print('\n\n AND \n\n')
-    print(previous_articles)
-    print('\n\n\n\n\n')
-    # O(n**2 logic, make it better sometime.)    
     new_article_list = [d for d in latest_article_list if d not in previous_articles]
+    
     return new_article_list
 
 
 
-def the_hindu_listener(driver):
-
-    article_list = []
-    try:
-        driver.get('https://www.thehindu.com/latest-news/')
-    except:
-        print("Check your Internet Connection.")
-        return None
-
-    html = driver.page_source
-    soup = BeautifulSoup(html, features="lxml")
-    articles = soup.find("ul", class_="latest-news") 
-
-    for a in articles.find_all("li"):
-        article = {}
-        article['title'] = a.text
-        article['link'] = a.find("a", recursive=False)['href']
-        article_list.append(article)
-    
-    #print(article_list)
-
-    if article_list:
-        return article_list 
-    else:
-        return None
 
 
 
-SUPPORTED_NEWS_SOURCES = {  # Map the listener function to the News Source Name.
-    "The Hindu": the_hindu_listener
-}
+
+
