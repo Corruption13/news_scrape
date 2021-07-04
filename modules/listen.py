@@ -1,18 +1,10 @@
 import time
 from bs4 import BeautifulSoup
 
-from .content_fetch import content_fetcher
+from Listeners.the_hindu import the_hindu_listener
+# Define Custom Listener Functions in "Listener" module folder. Instuctions given there.
 
-#Define Listener Functions below.
-from .custom_listeners.the_hindu import the_hindu_listener
-# News Source Listener Functions should follow the following structure for I/O:
-# Function Argument: Selenium webdriver instance
-# Return a LIST[] of article structures. If Empty list, return a None instead. (IMPORTANT!)
-# Article structure must contain keys: 
-# {'title': '', 'link': ' '}
-# Follow this format to implement your own listener for other websites.
-# Import and add that listener below.
-#
+
 SUPPORTED_NEWS_SOURCES = {  # Map the listener function to the News Source Name.
     "The Hindu": the_hindu_listener
 }
@@ -27,10 +19,14 @@ def listener_controller(driver, news_source, topic=None, IGNORE_INITIAL_ARTICLES
 
     while(not new_article_found):
         if news_source in SUPPORTED_NEWS_SOURCES: # Check if given news source is supported by our software.
-            latest_article_list = SUPPORTED_NEWS_SOURCES[news_source](driver) or latest_article_list
-            if not previous_articles and IGNORE_INITIAL_ARTICLES:
+
+            latest_article_list = SUPPORTED_NEWS_SOURCES[news_source](driver, topic)  \
+                                or latest_article_list  # If return None, some error occoured with request. So Ignore this iteration.
+            
+            if not previous_articles and IGNORE_INITIAL_ARTICLES:   # First time setup.
                 previous_articles = latest_article_list
                 print("\nInitialised Articles.")
+
             else:
                 if previous_articles[:3] != latest_article_list[:3]:    # only checking first 3 articles to reduce computation.
                     print("New Articles Published!!")
@@ -39,6 +35,7 @@ def listener_controller(driver, news_source, topic=None, IGNORE_INITIAL_ARTICLES
                     poll_count = poll_count + 1
                     print(str(poll_count) + " -> No New Articles found. Sleeping for 60s")
                     time.sleep(60)
+
         else:
             print("Invalid News Source.")
         
