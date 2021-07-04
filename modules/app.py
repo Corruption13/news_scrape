@@ -2,31 +2,41 @@
 # S Sandeep Pillai ©
 
 from .listen import listener_controller
-from WebDriver.driver import init_web_driver
+from .WebDriver.driver import init_web_driver
 
 from .filter import filter
+from .target import find_relevant_articles
+
 
 def app():  # Skeleton Model for project defined as comments.
+    while(True):
+        app_loop()
+        break   # For now.
+    # Implement scheduling here if needed.
+
+def app_loop():
 
     print("\nStarting Systems..\n")
     driver = init_web_driver()  # Global Web Driver for Selenium.   
     
+    source_news = "The Hindu"
+    topic = "Corona" # Not used rn. TODO
+    customer_filter_words = ['Narendra Modi']
 
-    new_articles = listener_controller(driver, "The Hindu", "Corona")
-    cleaned_articles = filter(new_articles, [], driver)
+    target_domain = ""
+    time_period = '7d'
+    output_filter = ['BJP']
+
+    new_articles = listener_controller(driver, source_news, topic)
+    cleaned_articles = filter(new_articles, customer_filter_words, driver)
     print(cleaned_articles)
-    #links = find_relevant_news(cleaned_articles['keywords])
+    
+    link_map = find_relevant_articles(driver, cleaned_articles, target_domain, time_period, output_filter)
+    print(link_map)
+    #data_map = find_link_relevance(link_map)
+    #writeToCSV(data_map)
+
     # Output -> Links.
 
     driver.quit()
     print("\n\nShutting Down\n")
-
-
-
-
-# Input variables
-
-#news_source = int(input(
-#    "Enter news source:\n[1] The Hindu\n[2] ANI\n"))
-# custom_user_filter = [str,]
-#news_target = input("Enter news website to target: ")

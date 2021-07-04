@@ -15,8 +15,9 @@ article_list = [{'title': '\nNearly ₹150-hike in gas price in five months leav
 
 text = "NEW DELHI: Having played a role in handling the security situation in Jammu and Kashmir after the abrogation of Article370, National Security Advisor Ajit Doval has been working behind the ongoing political process in the Union territory.The Centre's effort led by the ministry of home affairs to engage with the political parties would see an all-party meeting on June 24 which will be chaired by Prime Minister Narendra Modi . The NSA has been working all along for pushing this political process in the Union territory which used to be a state prior to August 2019 when Article 370 was removed, sources said.The NSA has also been holding meetings with the junior level leadership at different levels to know the ground situation, they said.Post Article 370 abrogation, the NSA had camped in the state for many days and met the people there at a time when it was being felt that there would be a strong response to the central decision.In the recent past also, he has been involved in the process to ensure the observance of the ceasefire agreements between the armies of India and Pakistan along the Line of Control. The guns of the two sides have also remained silent for more than 110 days now.Army chief Gen Manoj Mukund Naravane has also been reviewing the ground situation regularly and keeping the situation under control."
 
-
-
+import os
+dir_path = os.path.abspath("./modules")
+print(dir_path)
 #import spacy
 #nlp = spacy.load("en_core_web_sm")
 

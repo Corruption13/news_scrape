@@ -1,9 +1,8 @@
 import time
 from bs4 import BeautifulSoup
 
-from Listeners.the_hindu import the_hindu_listener
 # Define Custom Listener Functions in "Listener" module folder. Instuctions given there.
-
+from .Listener.the_hindu import the_hindu_listener
 
 SUPPORTED_NEWS_SOURCES = {  # Map the listener function to the News Source Name.
     "The Hindu": the_hindu_listener

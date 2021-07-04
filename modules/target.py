@@ -1,6 +1,11 @@
 from bs4 import BeautifulSoup
 from time import sleep as timesleep
 
+def find_relevant_articles(driver, article_list, target_domain, time_period=None, filter = None):
+
+    for article in article_list:
+        target(driver, target_domain, article['keywords'], time_period, filter)
+
 def target(driver, target_domain, topic_list, time_period=None, filter = None):
 
     topic_map = {}

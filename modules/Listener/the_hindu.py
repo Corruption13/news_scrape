@@ -1,16 +1,6 @@
 from bs4 import BeautifulSoup
 
-#
-#
-# News Source Listener Functions should follow the following structure for I/O:
-# Function Argument: Selenium webdriver, [topic]
-# Return a LIST[] of article json. If Empty list, return a None instead. (IMPORTANT!)
-# Article json must contain keys: 
-# {'title': '', 'link': ' '}
-# Follow this format to implement your own listener for other websites.
-# Import and add that listener in listen.py
-#
-#
+
 
 def the_hindu_listener(driver, topic=None):
 

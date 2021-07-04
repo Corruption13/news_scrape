@@ -1,5 +1,5 @@
 from newspaper import Article
-from NLP.nlp import SpacyKeywordGen, YakeKeywordGen, RakeKeywordGen
+from .NLP.nlp import SpacyKeywordGen, YakeKeywordGen, RakeKeywordGen
 NLP_Functions = {
     'spacy': SpacyKeywordGen,
     'yake': YakeKeywordGen,
