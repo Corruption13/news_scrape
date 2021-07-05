@@ -4,19 +4,21 @@ from time import sleep as timesleep
 def find_relevant_articles(driver, article_list, target_domain, time_period=None, filter = None):
 
     for article in article_list:
-        target(driver, target_domain, article['keywords'], time_period, filter)
+        article['related_articles'] = target(driver, target_domain, article['data']['keywords'], time_period, filter)
+
+    return article_list
 
 def target(driver, target_domain, topic_list, time_period=None, filter = None):
 
-    topic_map = {}
+    keyword_map = {}
     for topic in topic_list:
         
         print('\n\n\nTOPIC: ' + topic + '\n')
         url = construct_google_news_url(target_domain, topic, time_period, filter)
-        topic_map[topic] = google_news_search(driver, url)
+        keyword_map[topic] = google_news_search(driver, url)
         timesleep(3)
 
-    return topic_map
+    return keyword_map
 
 
 
@@ -36,7 +38,7 @@ def construct_google_news_url(news_site_domain, keywords, time_period=None, filt
         else:
             time_period = '%' + '20when' + '%' +  '3A' + time_period
         if filter: 
-            filter = " -" + filter
+            filter = " -" + " ".join(filter)
         else:
             filter = ""
 
@@ -49,7 +51,7 @@ def google_news_search(webdriver, news_url):
 
     article_list = []
     webdriver.get(news_url)
-    html = driver.page_source
+    html = webdriver.page_source
     soup = BeautifulSoup(html, features="lxml")
     articles = soup.find_all("a", class_="DY5T1d RZIKme") 
 
@@ -68,7 +70,7 @@ def google_news_search(webdriver, news_url):
 
 
 
-
+# For Debug Purposes Only.
 if __name__ == '__main__':
 
     import chromedriver_autoinstaller

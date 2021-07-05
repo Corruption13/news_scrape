@@ -4,39 +4,69 @@
 from .listen import listener_controller
 from .WebDriver.driver import init_web_driver
 
-from .filter import filter
+from .fetch import fetch_data
 from .target import find_relevant_articles
+from .analyse import find_link_relevance
+from .file import writeToCSV, readFromCSV
 
+
+parameters = {
+        'source_news':"The Hindu",
+        'must_contain_in_title': [], # eg: ["| National",]
+        'custom_filter_words': ['Narendra Modi'],
+        'target_domain': "",
+        'time_period':'7d',
+        'output_filter': ['BJP']
+}
 
 def app():  # Skeleton Model for project defined as comments.
-    while(True):
-        app_loop()
-        break   # For now.
-    # Implement scheduling here if needed.
-
-def app_loop():
 
     print("\nStarting Systems..\n")
-    driver = init_web_driver()  # Global Web Driver for Selenium.   
-    
-    source_news = "The Hindu"
-    topic = "Corona" # Not used rn. TODO
-    customer_filter_words = ['Narendra Modi']
+    driver = init_web_driver()  # Global Web Driver for Selenium.  
+    previous_articles = None
 
-    target_domain = ""
-    time_period = '7d'
-    output_filter = ['BJP']
-
-    new_articles = listener_controller(driver, source_news, topic)
-    cleaned_articles = filter(new_articles, customer_filter_words, driver)
-    print(cleaned_articles)
-    
-    link_map = find_relevant_articles(driver, cleaned_articles, target_domain, time_period, output_filter)
-    print(link_map)
-    #data_map = find_link_relevance(link_map)
-    #writeToCSV(data_map)
-
-    # Output -> Links.
+    while(True):
+        previous_articles = app_loop(driver, parameters, previous_articles)
+        break
 
     driver.quit()
     print("\n\nShutting Down\n")
+    
+
+
+def app_loop(driver, parameters, previous_articles=None):
+
+
+    # Listens to a source website for new articles every x seconds
+    new_articles, previous_article_list = listener_controller(
+                        driver=driver, 
+                        news_source=parameters['source_news'], 
+                        must_contain_title_keyword=parameters['must_contain_in_title'], 
+                        previous_articles=previous_articles, 
+                        sleep_duration=45)
+
+    # Fetches the article content and finds relevant keywords with NLP.
+    cleaned_articles = fetch_data(
+                        article_list=new_articles, 
+                        customer_filter_words=parameters['custom_filter_words'], 
+                        driver=driver)
+
+    # Intermediette File Output of source website data.
+    writeToCSV("source_article.json", cleaned_articles, 'a')
+
+    # Finds related articles to source and adds to above data structure.
+    data_map = find_relevant_articles(
+                        driver=driver, 
+                        article_list=cleaned_articles, 
+                        target_domain=parameters['target_domain'],
+                        time_period=parameters['time_period'])
+
+    # Finds Inverse of data_map, returning a link strength JSON
+    link_map = find_link_relevance(data_map)
+    writeToCSV("final_output.json", link_map, 'a')
+
+    print("News Data Recorded.")
+    # Return existing articles of source website to restart listening loop again.
+    return previous_article_list
+
+
