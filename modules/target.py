@@ -4,6 +4,7 @@ from time import sleep as timesleep
 def find_relevant_articles(driver, article_list, target_domain, time_period=None, filter = None):
 
     for article in article_list:
+        print("\nKeywords: ", article['data']['keywords'])
         article['related_articles'] = target(driver, target_domain, article['data']['keywords'], time_period, filter)
 
     return article_list
@@ -13,7 +14,7 @@ def target(driver, target_domain, topic_list, time_period=None, filter = None):
     keyword_map = {}
     for topic in topic_list:
         
-        print('\n\n\nTOPIC: ' + topic + '\n')
+        print('\nTOPIC: ' + topic, end=" -> ")
         url = construct_google_news_url(target_domain, topic, time_period, filter)
         keyword_map[topic] = google_news_search(driver, url)
         timesleep(3)
@@ -43,7 +44,7 @@ def construct_google_news_url(news_site_domain, keywords, time_period=None, filt
             filter = ""
 
         final_url = base_url + query + target_site + time_period + filter
-        print("URL: "+ final_url)
+        #print("URL: "+ final_url)
 
         return final_url
 
@@ -54,14 +55,14 @@ def google_news_search(webdriver, news_url):
     html = webdriver.page_source
     soup = BeautifulSoup(html, features="lxml")
     articles = soup.find_all("a", class_="DY5T1d RZIKme") 
-
+    print(len(articles), "articles found.")
     if not articles:
         print("No Results!")
     else:
         for article in articles:
             link = "https://news.google.com" + article['href'][1:]
             title = article.text
-            print("Title: ", title)
+            #print("Title: ", title)
             article_list.append({'title':  title, 'link': link})
 
 

@@ -23,15 +23,15 @@ def link_strength(article):
     for keyword in related_articles:
         
         for url in related_articles[keyword]:
-            if url['link'] in url_map:
-                url_map[url['link']]['keywords'].append(keyword)
+            if url['title'] in url_map:
+                url_map[url['title']]['keywords'].append(keyword)
             else:
-                url_map[url['link']] = {
-                    'title': url['title'],
-                    'keywords': [keyword]
+                url_map[url['title']] = {
+                    'keywords': [keyword],
+                    'link': url['link']
                 }
     
-    sorted_url_map = sorted(url_map.items(), key=lambda x: len(x[1]), reverse=True) # Sort URL map my count of keywords
+    sorted_url_map = sorted(url_map.items(), key=lambda x: len(x[1]['keywords']), reverse=True) # Sort URL map my count of keywords
     return sorted_url_map
 
     

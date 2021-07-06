@@ -16,11 +16,15 @@ def fetch_data(article_list, customer_filter_words, driver=None):
         page['data'] = newspaper3kFetcher(page['link'])
 
 
-    cleaned_articles = custom_cleaner(article_list)
+    cleaned_articles = custom_cleaner(article_list, customer_filter_words)
     return cleaned_articles
 
-def custom_cleaner(article_list):
-    #TODO add custom filter here.
+def custom_cleaner(article_list, remove_keyword):
+    
+    # Add custom filter here. - Done.
+    for article in article_list:
+        article['data']['keywords'] = [x for x in article['data']['keywords'] if x not in remove_keyword]
+
     return article_list
 
 
@@ -41,11 +45,8 @@ def newspaper3kFetcher(url, include_content=False):
         
         return data
     
-
-                
-
     except Exception as e:
-        print("No Content Found.")
+        print("No Content Found. Error:")
         print(e)
         return {'content': "", 'authors': "",'publish_date': "",'keywords': [] }
 

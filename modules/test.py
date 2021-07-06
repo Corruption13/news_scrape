@@ -25,14 +25,16 @@ print(dir_path)
 #print(list(doc.ents))
 
 
+stri = "123456789"
 
-import newspaper
+listi = [{"Apple":{"link": "A", "art": ['1', '2']}}]
+print(list(listi[0].keys())[0])
 
-paper = newspaper.build('http://www.thehindu.com')
-for article in paper.articles:
-    print(article.url)
+a = "123"
+b = "ABC"
+c = ".exe"
 
-
+print("{a} , {b}, {c},".format(a=a, b=b, c=c))
 
 
 

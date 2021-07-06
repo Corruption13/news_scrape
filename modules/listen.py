@@ -14,7 +14,7 @@ def listener_controller(driver, news_source, must_contain_title_keyword=[], prev
     latest_article_list = []
     
     new_article_found = False
-    poll_count = 0  # How many times website has been polled since last new article.
+    poll_count = 1  # How many times website has been polled since last new article.
 
     while(not new_article_found):
         if news_source in SUPPORTED_NEWS_SOURCES: # Check if given news source is supported by our software.
@@ -24,7 +24,8 @@ def listener_controller(driver, news_source, must_contain_title_keyword=[], prev
             
             if not previous_articles:   # First time setup, if no previous articles indexed.
                 previous_articles = latest_article_list
-                print("\nInitialised Articles.")
+                print(news_source, "Initialised Articles.")
+                print("Listening for new articles. Sleep duration:", sleep_duration, 'seconds\nPoll Count -> 1', end="")
 
             else:
                 if previous_articles[:3] != latest_article_list[:3]:    # only checking first 3 articles to reduce computation.
@@ -48,7 +49,7 @@ def listener_controller(driver, news_source, must_contain_title_keyword=[], prev
                                           # If no elements remain, reset and continue checking.
                 else:
                     poll_count = poll_count + 1
-                    print(poll_count, "-> No New Articles found. Sleeping for", sleep_duration)
+                    print("-> ", poll_count, end="")
                     time.sleep(sleep_duration)
 
         else:

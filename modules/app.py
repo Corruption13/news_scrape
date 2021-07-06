@@ -7,19 +7,10 @@ from .WebDriver.driver import init_web_driver
 from .fetch import fetch_data
 from .target import find_relevant_articles
 from .analyse import find_link_relevance
-from .file import writeToCSV, readFromCSV
+from .file import writeToCSV, writeArticleToCSV, readFromCSV
 
 
-parameters = {
-        'source_news':"The Hindu",
-        'must_contain_in_title': [], # eg: ["| National",]
-        'custom_filter_words': ['Narendra Modi'],
-        'target_domain': "",
-        'time_period':'7d',
-        'output_filter': ['BJP']
-}
-
-def app():  # Skeleton Model for project defined as comments.
+def app(parameters):  # Skeleton Model for project defined as comments.
 
     print("\nStarting Systems..\n")
     driver = init_web_driver()  # Global Web Driver for Selenium.  
@@ -38,6 +29,7 @@ def app_loop(driver, parameters, previous_articles=None):
 
 
     # Listens to a source website for new articles every x seconds
+
     new_articles, previous_article_list = listener_controller(
                         driver=driver, 
                         news_source=parameters['source_news'], 
@@ -48,11 +40,11 @@ def app_loop(driver, parameters, previous_articles=None):
     # Fetches the article content and finds relevant keywords with NLP.
     cleaned_articles = fetch_data(
                         article_list=new_articles, 
-                        customer_filter_words=parameters['custom_filter_words'], 
+                        customer_filter_words=parameters['remove_keywords'], 
                         driver=driver)
-
-    # Intermediette File Output of source website data.
-    writeToCSV("source_article.json", cleaned_articles, 'a')
+  
+    # Intermediette File Output of source website data. 
+    #writeToCSV("debug_source_article.json", cleaned_articles, 'w+') # For Debugging.
 
     # Finds related articles to source and adds to above data structure.
     data_map = find_relevant_articles(
@@ -63,10 +55,10 @@ def app_loop(driver, parameters, previous_articles=None):
 
     # Finds Inverse of data_map, returning a link strength JSON
     link_map = find_link_relevance(data_map)
-    writeToCSV("final_output.json", link_map, 'a')
+    writeArticleToCSV(parameters['source_news'], link_map)
 
     print("News Data Recorded.")
     # Return existing articles of source website to restart listening loop again.
-    return previous_article_list
+    #return previous_article_list
 
 

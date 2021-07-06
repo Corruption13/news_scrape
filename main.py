@@ -4,17 +4,18 @@
 
 import chromedriver_autoinstaller
 from modules.app import app
-import os, sys
+import parameters
+import os
 
 def dependency_check():
     chromedriver_autoinstaller.install()
-    import sys, os
-    sys.path.append(os.path.abspath("./news_scrape/modules"))
+    try:
+        os.makedirs('Output')
+    except:
+        print("Output will be stored in the directory ./Output. Make the folder if it doesnt exist.")
  
-
-
 
 if __name__ == "__main__":    
     dependency_check()
-    app()
+    app(parameters.input_parameters)
  
