@@ -4,7 +4,7 @@ input_parameters = {
         'remove_keywords': ['Narendra Modi'],   
         'add_keywords': [],
         'target_domain': "caravanmagazine.in",         # eg: thehindu.com : Just the domain name without https:// or other path.
-        'time_period':'7d',
+        'time_period':'',
 }
 
 email_credentials = {

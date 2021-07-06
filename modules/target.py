@@ -35,7 +35,6 @@ def construct_google_news_url(news_site_domain, keywords, time_period=None, filt
 
         if time_period not in allowed_time_periods:
             time = ''
-            print("Invalid Time Period. Allowed: ", allowed_time_periods)
         else:
             time_period = '%' + '20when' + '%' +  '3A' + time_period
         if filter: 

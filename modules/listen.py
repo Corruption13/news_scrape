@@ -12,10 +12,10 @@ SUPPORTED_NEWS_SOURCES = {  # Map the listener function to the News Source Name.
 
 def listener_controller(driver, news_source, must_contain_title_keyword=[], previous_articles=None, sleep_duration=60):    # Listens for new article from source and returns list of new articles found.
     latest_article_list = previous_articles
-    new_article_found = False
+    found_new_articles = False
     poll_count = 0 # How many times website has been polled since last new article.
     print("\nListening for new articles every", sleep_duration, 'seconds:', end="")
-    while(not new_article_found):
+    while(not found_new_articles):
         if news_source in SUPPORTED_NEWS_SOURCES: # Check if given news source is supported by our software.
 
             latest_article_list = SUPPORTED_NEWS_SOURCES[news_source](driver)  \
@@ -27,8 +27,17 @@ def listener_controller(driver, news_source, must_contain_title_keyword=[], prev
 
             else:
                 if previous_articles[:3] != latest_article_list[:3]:    # only checking first 3 articles to reduce computation.
+                    print(previous_articles[:3])
+                    print('\n\n\n')
+                    print(latest_article_list[:3])
 
-                    new_article_list = [d for d in latest_article_list if d not in previous_articles]
+                    #new_article_list = [d for d in latest_article_list if d not in previous_articles]
+                    new_article_list = []
+                    for article in latest_article_list:
+                        if article not in previous_articles:
+                            new_article_list.append(article)
+                        else:
+                            break
                     # Find Set A - Set B for new articles.
 
                     if must_contain_title_keyword:     # Check if these new articles contain req keyword.
@@ -40,7 +49,8 @@ def listener_controller(driver, news_source, must_contain_title_keyword=[], prev
                     
                     if new_article_list:  # If any elements remain in new article list after above checks.
                         print("\nNew Articles Published!")
-                        new_article_found = True
+                        previous_articles = latest_article_list
+                        found_new_articles = True
                     else:
                         print("\nNew Articles, but does not contain keyword:", must_contain_title_keyword)
                         previous_articles = latest_article_list
@@ -53,8 +63,7 @@ def listener_controller(driver, news_source, must_contain_title_keyword=[], prev
         else:
             print("Invalid News Source.")
         
-    
-
+    print("In Function:", len(new_article_list))
 
     return new_article_list, latest_article_list
 

@@ -3,7 +3,7 @@
 
 from .listen import listener_controller
 from .WebDriver.driver import init_web_driver
-
+from copy import deepcopy
 from .fetch import fetch_data
 from .target import find_relevant_articles
 from .analyse import find_link_relevance
@@ -18,8 +18,7 @@ def app(parameters):  # Skeleton Model for project defined as comments.
     iteration = 1
     while(iteration < 4):
         print("\n\n\nIteration: ", iteration)
-        print(previous_articles[:10])
-        previous_articles = app_loop(driver, parameters, previous_articles)
+        previous_articles = app_loop(driver, parameters.input_parameters, previous_articles)
         iteration += 1
 
     driver.quit()
@@ -32,25 +31,25 @@ def app_loop(driver, parameters, previous_articles=None):
 
     # Listens to a source website for new articles every x seconds
 
-    (new_articles, previous_article_dict) = listener_controller(
+    new_articles, article_dict= listener_controller(
                         driver=driver, 
                         news_source=parameters['source_news'], 
                         must_contain_title_keyword=parameters['must_contain_in_title'], 
                         previous_articles=previous_articles, 
                         sleep_duration=45)
-
+    current_articles = deepcopy(article_dict)
     # Tasks to Execute when new articls found.
     article_found_tasks(driver, parameters, new_articles)
 
     # Return existing articles of source website to restart listening loop again.
-    return previous_article_dict
+    return current_articles
 
 
 def article_found_tasks(driver, parameters, new_articles):
 
     # Fetches the article content and finds relevant keywords with NLP.
     cleaned_articles = fetch_data(
-                        article_list=new_articles, 
+                        articles=new_articles, 
                         customer_filter_words=parameters['remove_keywords'], 
                         driver=driver)
   

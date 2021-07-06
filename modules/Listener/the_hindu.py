@@ -13,7 +13,6 @@ from bs4 import BeautifulSoup
 #
 
 def the_hindu_listener(driver, topic=None):
-    print(".", end="")
     article_list = []
     try:
         driver.get('https://www.thehindu.com/latest-news/')
@@ -36,4 +35,5 @@ def the_hindu_listener(driver, topic=None):
     if article_list:
         return article_list 
     else:
+        print("(Webpage didn't load)", end="")
         return None

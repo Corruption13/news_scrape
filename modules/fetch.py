@@ -8,13 +8,13 @@ NLP_Functions = {
 # Use custom NLP function if needed, just take String Text as argument and output a list[] of keywords.
 PARSER = "spacy" # Pre Made NLP: spacy, yake, rake
 
-def fetch_data(article_list, customer_filter_words, driver=None):
+def fetch_data(articles, customer_filter_words, driver=None):
 
     print("Fetching content.")
+    article_list = articles.copy()
     for page in article_list:
         # Use whatever parser you want, just return str, [list]
         page['data'] = newspaper3kFetcher(page['link'])
-
 
     cleaned_articles = custom_cleaner(article_list, customer_filter_words)
     return cleaned_articles
@@ -39,7 +39,7 @@ def newspaper3kFetcher(url, include_content=False):
         data= {'content': article.text,
                'authors': article.authors,
                'publish_date': article.publish_date,
-               'keywords': article.keywords }
+               'keywords': article.keywords[:3] }
         if include_content:
             data['content']= article.text
         

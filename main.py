@@ -12,10 +12,10 @@ def dependency_check():
     try:
         os.makedirs('Output')
     except:
-        print("Output will be stored in the directory ./Output. Make the folder if it doesnt exist.")
+        print("Output will be stored in the directory ./Output.\nMake the folder if script can't create it.")
  
 
 if __name__ == "__main__":    
     dependency_check()
-    app(parameters.input_parameters)
+    app(parameters)
  

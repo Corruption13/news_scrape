@@ -6,6 +6,7 @@ def init_web_driver(DISABLE_IMAGE_LOADING=True):
 
     options = webdriver.ChromeOptions()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_argument("--log-level=3")
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(10)
 
