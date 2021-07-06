@@ -11,11 +11,10 @@ SUPPORTED_NEWS_SOURCES = {  # Map the listener function to the News Source Name.
 ### End 
 
 def listener_controller(driver, news_source, must_contain_title_keyword=[], previous_articles=None, sleep_duration=60):    # Listens for new article from source and returns list of new articles found.
-    latest_article_list = []
-    
+    latest_article_list = previous_articles
     new_article_found = False
-    poll_count = 1  # How many times website has been polled since last new article.
-
+    poll_count = 0 # How many times website has been polled since last new article.
+    print("\nListening for new articles every", sleep_duration, 'seconds:', end="")
     while(not new_article_found):
         if news_source in SUPPORTED_NEWS_SOURCES: # Check if given news source is supported by our software.
 
@@ -24,8 +23,7 @@ def listener_controller(driver, news_source, must_contain_title_keyword=[], prev
             
             if not previous_articles:   # First time setup, if no previous articles indexed.
                 previous_articles = latest_article_list
-                print(news_source, "Initialised Articles.")
-                print("Listening for new articles. Sleep duration:", sleep_duration, 'seconds\nPoll Count -> 1', end="")
+                print('\n Initialised Articles :', news_source, "\nPoll Count", end="")
 
             else:
                 if previous_articles[:3] != latest_article_list[:3]:    # only checking first 3 articles to reduce computation.
@@ -41,15 +39,15 @@ def listener_controller(driver, news_source, must_contain_title_keyword=[], prev
                             new_article_list.remove(article)    # Hence, wont reach this line.
                     
                     if new_article_list:  # If any elements remain in new article list after above checks.
-                        print("New Articles Published!!")
+                        print("\nNew Articles Published!")
                         new_article_found = True
                     else:
-                        print("New Articles, but does not contain keyword:", must_contain_title_keyword)
+                        print("\nNew Articles, but does not contain keyword:", must_contain_title_keyword)
                         previous_articles = latest_article_list
                                           # If no elements remain, reset and continue checking.
                 else:
                     poll_count = poll_count + 1
-                    print("-> ", poll_count, end="")
+                    print(" -> ", poll_count, end="")
                     time.sleep(sleep_duration)
 
         else:

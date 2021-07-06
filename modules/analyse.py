@@ -30,7 +30,12 @@ def link_strength(article):
                     'keywords': [keyword],
                     'link': url['link']
                 }
-    
+    if len(url_map) > 100:
+        for url in url_map.items():
+            if len(url[1]['link']) < 2: 
+                url_map.pop(url[0])
+
+
     sorted_url_map = sorted(url_map.items(), key=lambda x: len(x[1]['keywords']), reverse=True) # Sort URL map my count of keywords
     return sorted_url_map
 

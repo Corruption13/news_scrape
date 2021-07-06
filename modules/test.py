@@ -37,6 +37,17 @@ c = ".exe"
 print("{a} , {b}, {c},".format(a=a, b=b, c=c))
 
 
+def foo(a):
+    a = a + 1
+    b = a + 2
+
+    return (b, a)
+
+a = 1
+while(a<10):
+    print(a)
+    (b, a) = foo(a)
+
 
 
 

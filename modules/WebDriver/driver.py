@@ -16,7 +16,7 @@ def init_web_driver(DISABLE_IMAGE_LOADING=True):
         chrome_options.add_experimental_option("prefs", prefs)
         driver = webdriver.Chrome(chrome_options=chrome_options)
 
-    print('\n\n\nIgnore any warnings above.\n')
+    print('\nIgnore any warnings above.\n')
     driver.minimize_window()
     return driver
 

@@ -3,7 +3,7 @@ input_parameters = {
         'must_contain_in_title': [],                            # eg: ["| National",]
         'remove_keywords': ['Narendra Modi'],   
         'add_keywords': [],
-        'target_domain': "timesofindia.indiatimes.com",         # eg: thehindu.com : Just the domain name without https:// or other path.
+        'target_domain': "caravanmagazine.in",         # eg: thehindu.com : Just the domain name without https:// or other path.
         'time_period':'7d',
 }
 

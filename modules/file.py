@@ -42,4 +42,4 @@ def writeArticleToCSV(source_website, article_list):
                     csv_file.write("{a},{b},{c}, \n".format(a=title, b=link, c=keywords))
         except Exception as e:
             print(e)
-        print("Saving File as", file_name)
+        print("\nSaving File as", file_name)

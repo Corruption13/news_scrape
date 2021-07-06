@@ -14,14 +14,16 @@ def app(parameters):  # Skeleton Model for project defined as comments.
 
     print("\nStarting Systems..\n")
     driver = init_web_driver()  # Global Web Driver for Selenium.  
-    previous_articles = None
-
-    while(True):
+    previous_articles = []
+    iteration = 1
+    while(iteration < 4):
+        print("\n\n\nIteration: ", iteration)
+        print(previous_articles[:10])
         previous_articles = app_loop(driver, parameters, previous_articles)
-        break
+        iteration += 1
 
     driver.quit()
-    print("\n\nShutting Down\n")
+    print("\n\nShutting Down\nContact @ https://corruption13.github.io/")
     
 
 
@@ -30,12 +32,21 @@ def app_loop(driver, parameters, previous_articles=None):
 
     # Listens to a source website for new articles every x seconds
 
-    new_articles, previous_article_list = listener_controller(
+    (new_articles, previous_article_dict) = listener_controller(
                         driver=driver, 
                         news_source=parameters['source_news'], 
                         must_contain_title_keyword=parameters['must_contain_in_title'], 
                         previous_articles=previous_articles, 
                         sleep_duration=45)
+
+    # Tasks to Execute when new articls found.
+    article_found_tasks(driver, parameters, new_articles)
+
+    # Return existing articles of source website to restart listening loop again.
+    return previous_article_dict
+
+
+def article_found_tasks(driver, parameters, new_articles):
 
     # Fetches the article content and finds relevant keywords with NLP.
     cleaned_articles = fetch_data(
@@ -56,9 +67,7 @@ def app_loop(driver, parameters, previous_articles=None):
     # Finds Inverse of data_map, returning a link strength JSON
     link_map = find_link_relevance(data_map)
     writeArticleToCSV(parameters['source_news'], link_map)
-
     print("News Data Recorded.")
-    # Return existing articles of source website to restart listening loop again.
-    #return previous_article_list
-
-
+    
+    #Send Email 
+    #send_notification_email(link_map) #TODO
