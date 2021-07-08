@@ -1,9 +1,10 @@
 from newspaper import Article
-from .NLP.nlp import SpacyKeywordGen, YakeKeywordGen, RakeKeywordGen
+from .NLP.nlp import SpacyKeywordGen, YakeKeywordGen, RakeKeywordGen, NewsPaperKeyGen
 NLP_Functions = {
     'spacy': SpacyKeywordGen,
     'yake': YakeKeywordGen,
     'rake': RakeKeywordGen,
+    'newspaper': NewsPaperKeyGen, 
 }
 # Use custom NLP function if needed, just take String Text as argument and output a list[] of keywords.
 PARSER = "spacy" # Pre Made NLP: spacy, yake, rake
@@ -39,7 +40,7 @@ def newspaper3kFetcher(url, include_content=False):
         data= {'content': article.text,
                'authors': article.authors,
                'publish_date': article.publish_date,
-               'keywords': article.keywords[:3] }
+               'keywords': article.keywords[:20] or article.nlp()}
         if include_content:
             data['content']= article.text
         

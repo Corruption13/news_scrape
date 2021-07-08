@@ -27,9 +27,7 @@ def listener_controller(driver, news_source, must_contain_title_keyword=[], prev
 
             else:
                 if previous_articles[:3] != latest_article_list[:3]:    # only checking first 3 articles to reduce computation.
-                    print(previous_articles[:3])
-                    print('\n\n\n')
-                    print(latest_article_list[:3])
+
 
                     #new_article_list = [d for d in latest_article_list if d not in previous_articles]
                     new_article_list = []
@@ -63,7 +61,7 @@ def listener_controller(driver, news_source, must_contain_title_keyword=[], prev
         else:
             print("Invalid News Source.")
         
-    print("In Function:", len(new_article_list))
+    print("Number of New Articles found: ", len(new_article_list))
 
     return new_article_list, latest_article_list
 

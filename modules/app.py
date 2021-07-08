@@ -36,7 +36,7 @@ def app_loop(driver, parameters, previous_articles=None):
                         news_source=parameters['source_news'], 
                         must_contain_title_keyword=parameters['must_contain_in_title'], 
                         previous_articles=previous_articles, 
-                        sleep_duration=45)
+                        sleep_duration=60)
     current_articles = deepcopy(article_dict)
     # Tasks to Execute when new articls found.
     article_found_tasks(driver, parameters, new_articles)
@@ -66,7 +66,7 @@ def article_found_tasks(driver, parameters, new_articles):
     # Finds Inverse of data_map, returning a link strength JSON
     link_map = find_link_relevance(data_map)
     writeArticleToCSV(parameters['source_news'], link_map)
-    print("News Data Recorded.")
+    print(len(link_map), "Article(s) Data Successfully Recorded.")
     
     #Send Email 
     #send_notification_email(link_map) #TODO

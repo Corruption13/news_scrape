@@ -4,9 +4,10 @@ from time import sleep as timesleep
 def find_relevant_articles(driver, article_list, target_domain, time_period=None, filter = None):
 
     for article in article_list:
-        print("\n\nKeywords: ", article['data']['keywords'], '\n Keyword Articles Count', end="")
+        print('\nTitle: ', article['title'])
+        print("\nKeywords Related Articles Count ", end="")
         article['related_articles'] = target(driver, target_domain, article['data']['keywords'], time_period, filter)
-
+    print('\n\n')
     return article_list
 
 def target(driver, target_domain, topic_list, time_period=None, filter = None):

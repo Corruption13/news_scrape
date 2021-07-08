@@ -6,17 +6,17 @@ def init_web_driver(DISABLE_IMAGE_LOADING=True):
 
     options = webdriver.ChromeOptions()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    options.add_argument("--log-level=3")
-    driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(10)
+    options.add_argument("--disable-software-rasterizer")
+    options.add_argument("--headless")
 
- 
     if DISABLE_IMAGE_LOADING:
         chrome_options = webdriver.ChromeOptions()
         prefs = {"profile.managed_default_content_settings.images": 2}
         chrome_options.add_experimental_option("prefs", prefs)
-        driver = webdriver.Chrome(chrome_options=chrome_options)
 
+    driver = webdriver.Chrome(options=options)
+    driver.implicitly_wait(10)
+    
     print('\nIgnore any warnings above.\n')
     driver.minimize_window()
     return driver

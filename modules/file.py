@@ -28,7 +28,7 @@ def create_directory(filename):
 def writeArticleToCSV(source_website, article_list):
     
     for article in article_list:
-        file_name = slugify(source_website+ article['title'][:15]) + str(randint(0,10)) # Incase same article title
+        file_name = slugify(source_website+ article['title'][:20]) + str(randint(0,10)) # Incase same article title
 
         with open("Output/"+file_name + ".json", "w+") as json_file:
             json_file.write(json.dumps(article))
@@ -42,4 +42,4 @@ def writeArticleToCSV(source_website, article_list):
                     csv_file.write("{a},{b},{c}, \n".format(a=title, b=link, c=keywords))
         except Exception as e:
             print(e)
-        print("\nSaving File as", file_name)
+        print("Saving File as", file_name)
