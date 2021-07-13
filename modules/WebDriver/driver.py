@@ -2,12 +2,13 @@
 from selenium import webdriver
 from time import sleep
 
-def init_web_driver(DISABLE_IMAGE_LOADING=True):  
+def init_web_driver(DISABLE_IMAGE_LOADING=True, headless=False):  
 
     options = webdriver.ChromeOptions()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.add_argument("--disable-software-rasterizer")
-    options.add_argument("--headless")
+    if headless:
+        options.add_argument("--headless")
 
     if DISABLE_IMAGE_LOADING:
         chrome_options = webdriver.ChromeOptions()

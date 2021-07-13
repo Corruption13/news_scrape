@@ -4,8 +4,8 @@ from time import sleep as timesleep
 def find_relevant_articles(driver, article_list, target_domain, time_period=None, filter = None):
 
     for article in article_list:
-        print('\nTitle: ', article['title'])
-        print("\nKeywords Related Articles Count ", end="")
+        print('\n\n\nTitle: ', article['title'])
+        print("Related Articles by Keyword Count ", end="")
         article['related_articles'] = target(driver, target_domain, article['data']['keywords'], time_period, filter)
     print('\n\n')
     return article_list
@@ -18,7 +18,7 @@ def target(driver, target_domain, topic_list, time_period=None, filter = None):
         print(' | ' + topic, end=" -> ")
         url = construct_google_news_url(target_domain, topic, time_period, filter)
         keyword_map[topic] = google_news_search(driver, url)
-        timesleep(2)
+        timesleep(1)
 
     return keyword_map
 

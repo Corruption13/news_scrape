@@ -11,7 +11,7 @@ PARSER = "spacy" # Pre Made NLP: spacy, yake, rake
 
 def fetch_data(articles, customer_filter_words, driver=None):
 
-    print("Fetching content.")
+    print("Fetching content.\n")
     article_list = articles.copy()
     for page in article_list:
         # Use whatever parser you want, just return str, [list]

@@ -12,7 +12,7 @@ def dependency_check():
     try:
         os.makedirs('Output')
     except:
-        print("Output will be stored in the directory ./Output.\nMake the folder if script can't create it.")
+        print("\nOutput will be stored in the directory ./Output.\nMake the folder if script can't create it.")
  
 
 if __name__ == "__main__":    

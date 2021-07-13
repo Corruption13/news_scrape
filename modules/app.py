@@ -13,13 +13,13 @@ from .file import writeToCSV, writeArticleToCSV, readFromCSV
 def app(parameters):  # Skeleton Model for project defined as comments.
 
     print("\nStarting Systems..\n")
-    driver = init_web_driver()  # Global Web Driver for Selenium.  
+    driver = init_web_driver(parameters.webdriver_parameters['disable_images'] ,parameters.webdriver_parameters['dont_show_browser'])  # Global Web Driver for Selenium.  
     previous_articles = []
     iteration = 1
     while(iteration < 4):
-        print("\n\n\nIteration: ", iteration)
         previous_articles = app_loop(driver, parameters.input_parameters, previous_articles)
         iteration += 1
+        print("\n\n\nIteration: ", iteration)
 
     driver.quit()
     print("\n\nShutting Down\nContact @ https://corruption13.github.io/")

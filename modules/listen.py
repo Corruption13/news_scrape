@@ -46,7 +46,7 @@ def listener_controller(driver, news_source, must_contain_title_keyword=[], prev
                             new_article_list.remove(article)    # Hence, wont reach this line.
                     
                     if new_article_list:  # If any elements remain in new article list after above checks.
-                        print("\nNew Articles Published!")
+                        print("\n\n\nNew Articles Published!")
                         previous_articles = latest_article_list
                         found_new_articles = True
                     else:
